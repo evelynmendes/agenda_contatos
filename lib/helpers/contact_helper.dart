@@ -31,7 +31,7 @@ class ContactHelper{
     final databasesPath = await getDatabasesPath();
     final  path = join(databasesPath, "Contactsnew.db");
     
-    return openDatabase(path, version: 1, onCreate: (Database db, int newerVersion) async {
+    return await openDatabase(path, version: 1, onCreate: (Database db, int newerVersion) async {
       await db.execute(
           "CREATE TABLE $contactTable($idColumn INTEGER PRIMARY KEY, $nameColumn TEXT, $emailColumn TEXT, "
               "$phoneColumn TEXT, $imgColumn TEXT)"
@@ -85,6 +85,7 @@ class ContactHelper{
     Database dbContact = await db;
     return Sqflite.firstIntValue(await dbContact.rawQuery("SELECT COUNT(*) FROM $contactTable"));
   }
+
   Future close() async {
     Database dbContact = await db;
     dbContact.close();
